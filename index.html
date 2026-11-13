@@ -411,6 +411,42 @@ body{font-family:var(--font-anthropic-sans)}
 .od.t-night .od-scope{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22);border-left-color:#C4B5FD}
 .od.t-night .od-scope-t,.od.t-night .od-scope-l{color:#fff}
 
+/* ===== v14: tab-bar navigation with scroll-spy, spacing rhythm, small fixes seen in render ===== */
+.od{gap:40px}
+.od-sec,.od-filter{scroll-margin-top:92px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.od-nav{position:sticky;top:8px;z-index:20;display:block;padding:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.od-nav-in{display:flex;align-items:center;gap:4px;padding:6px;border-radius:18px;background:color-mix(in srgb,var(--color-panel) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--color-border-line);box-shadow:0 12px 32px -16px rgba(30,27,75,.38);overflow-x:auto;scrollbar-width:none}
+.od-nav-in::-webkit-scrollbar{display:none}
+.od-nav a{flex:none;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:12px;border:0;background:transparent;color:var(--color-fg);font-weight:600;font-size:var(--cds-font-size-caption);line-height:1.2;text-decoration:none;white-space:nowrap;transition:background .18s,color .18s,box-shadow .18s}
+.od-nav a .ni{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--accent) 18%,transparent);font-size:15px}
+.od-nav a:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.od-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.od-nav a[aria-current=true]{background:linear-gradient(135deg,var(--t1),var(--t2));color:#fff;box-shadow:0 8px 18px -8px var(--t2)}
+.od-nav a[aria-current=true] .ni{background:rgba(255,255,255,.24)}
+.od-nav-sp{flex:1 1 8px;min-width:8px}
+.od-nav a.od-chip-sum{margin-left:0;font-weight:500;color:var(--color-fg-muted);background:color-mix(in srgb,var(--color-fg) 6%,transparent);font-variant-numeric:tabular-nums}
+.od-nav a.od-chip-sum .ni{background:color-mix(in srgb,var(--color-fg) 10%,transparent)}
+/* section header: clear start of each chapter */
+.od-sec>.od-sh{padding-bottom:14px;border-bottom:2px solid color-mix(in srgb,var(--accent) 28%,transparent)}
+.od-sec>.od-sh h2{font-weight:700}
+/* cards */
+.od-card{border-radius:16px;padding:20px 22px}
+.od-card h3{margin-bottom:4px;font-size:15.5px}
+.od-card .od-src{margin:2px 0 14px}
+.od-kg .od-src{margin:0}
+.od-kg{display:flex;flex-direction:column;border-radius:16px}
+.od-kg .od-kpi{flex:1;display:flex;flex-direction:column;justify-content:center}
+.od-row{align-items:center}
+.od tbody tr:nth-child(even) td:first-child{background:color-mix(in srgb,var(--color-fg) 3%,transparent)}
+#s-quality>details{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:14px;padding:14px 18px}
+.od-foot{text-align:center;font-size:12.5px;color:var(--color-fg-muted);padding:8px 0 4px;border-top:1px solid var(--color-border-line)}
+.od-top{position:fixed;right:22px;bottom:22px;z-index:25;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;text-decoration:none;font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#5B21B6,#DB2777);box-shadow:0 10px 22px -8px rgba(124,58,237,.7)}
+.od-top:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+html:has(.od.t-light),body:has(.od.t-light){background:#E3E7ED}
+html:has(.od.t-cream),body:has(.od.t-cream){background:#E9E1CE}
+html:has(.od.t-night),body:has(.od.t-night){background:#070A16}
+
 </style>
 </head>
 <body>
@@ -428,9 +464,7 @@ body{font-family:var(--font-anthropic-sans)}
     <div class="od-scope" role="note" aria-label="ขอบเขตของข้อมูลชุดนี้"><span class="od-scope-ic">📌</span><div><b class="od-scope-t">ขอบเขตของข้อมูลชุดนี้</b><ul class="od-scope-l" id="scope-list"></ul></div></div><dl class="od-defs" aria-label="คำอธิบายที่มาและคำศัพท์"><div class="od-def"><dt><span class="sx sx-hh">HOSxP</span></dt><dd>ข้อมูลการรับบริการจากระบบ HOSxP</dd></div><div class="od-def"><dt><span class="sx sx-hd">DMS</span></dt><dd>ข้อมูลคิวห้องยา (ตะกร้า เช็คยา จ่ายยา)</dd></div><div class="od-def"><dt><span class="od-term">median</span></dt><dd>ค่ากลาง ครึ่งหนึ่งรอน้อยกว่าเวลานี้</dd></div><div class="od-def"><dt><span class="od-term">P90</span></dt><dd>ผู้ป่วย 90% รอไม่เกินเวลานี้</dd></div></dl>
   </header>
 
-  <nav class="od-nav" aria-label="ไปยังหัวข้อ">
-    <a class="a-violet" href="#s-overview"><i></i>ภาพรวมเดือน</a><a class="a-rose" href="#s-time"><i></i>ช่วงเวลา / Rush hour</a><a class="a-blue" href="#s-card"><i></i>ห้องบัตร · Kiosk · นัด</a><a class="a-green" href="#s-exam"><i></i>ห้องตรวจ</a><a class="a-amber" href="#s-pharm"><i></i>ห้องยา</a><a class="a-teal" href="#s-flow"><i></i>ทุกขั้นตอน</a><a class="a-slate" href="#s-quality"><i></i>คุณภาพข้อมูล</a><a class="a-violet od-chip-sum" href="#s-filter" title="กลับไปที่ตัวกรอง"><i></i><span id="nav-sum-t">—</span></a>
-  </nav>
+  <nav class="od-nav" aria-label="ไปยังหัวข้อ"><div class="od-nav-in"><a class="a-violet" href="#s-overview" data-sec="s-overview"><span class="ni">📊</span><span>ภาพรวม</span></a><a class="a-rose" href="#s-time" data-sec="s-time"><span class="ni">⏰</span><span>ช่วงเวลา</span></a><a class="a-blue" href="#s-card" data-sec="s-card"><span class="ni">🎫</span><span>ห้องบัตร · Kiosk</span></a><a class="a-green" href="#s-exam" data-sec="s-exam"><span class="ni">🩺</span><span>ห้องตรวจ</span></a><a class="a-amber" href="#s-pharm" data-sec="s-pharm"><span class="ni">💊</span><span>ห้องยา</span></a><a class="a-teal" href="#s-flow" data-sec="s-flow"><span class="ni">🧭</span><span>ทุกขั้นตอน</span></a><a class="a-slate" href="#s-quality" data-sec="s-quality"><span class="ni">🔍</span><span>คุณภาพข้อมูล</span></a><span class="od-nav-sp"></span><a class="od-chip-sum" href="#s-filter" title="กลับไปที่ตัวกรอง"><span class="ni">🎛️</span><span id="nav-sum-t">—</span></a></div></nav>
 
   <section class="od-filter a-violet" id="s-filter" aria-label="เลือกช่วงข้อมูล">
     <div class="od-card ft-panel">
@@ -591,6 +625,8 @@ body{font-family:var(--font-anthropic-sans)}
       </ul>
     </details>
   </section>
+  <footer class="od-foot">สร้างจากไฟล์ Hosxp_DMS_OPD ส.ค. 2569 · ไม่มีข้อมูลระบุตัวผู้ป่วย (ไม่มี HN, VN, ชื่อผู้ป่วย หรือชื่อแพทย์)</footer>
+  <a class="od-top" href="#top" aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน">↑</a>
 </div>
 
 </div>
@@ -709,7 +745,7 @@ dash.draw('xy',el=>{
 
 dash.draw('heat',el=>{
   const rows=rowsOf('heatmap');if(!rows){ph(el,'heatmap');return;}
-  const hours=d3.range(4,23),dows=[...new Map(rows.map(r=>[r.dow_no,r.dow]))].sort((a,b)=>a[0]-b[0]);
+  const hx=d3.extent(rows.filter(r=>r.avg_visits>=1),r=>r.hour),hours=d3.range(hx[0]==null?4:hx[0],(hx[1]==null?22:hx[1])+1),dows=[...new Map(rows.map(r=>[r.dow_no,r.dow]))].sort((a,b)=>a[0]-b[0]);
   const W=Math.max(el.clientWidth,280),m={l:64,t:4,b:20,r:4},cw=(W-m.l-m.r)/hours.length,ch=36,H=m.t+m.b+ch*dows.length;
   const mx=d3.max(rows,r=>r.avg_visits),by=new Map(rows.map(r=>[r.dow_no+'_'+r.hour,r]));
   const night=!!(el.closest('.od')&&el.closest('.od').classList.contains('t-night'));
@@ -723,7 +759,7 @@ dash.draw('heat',el=>{
         .on('mousemove',()=>{tip.replaceChildren(mk('div',{},name+' '+hrt(h)),mk('div',{},'เฉลี่ย '+fI(v)+' ราย'));place(tip,wrap,m.l+ci*cw+cw/2,m.t+ri*ch+8);}).on('mouseleave',()=>{tip.style.display='none';});});
   });
   const st=Math.max(1,Math.ceil(26/cw));
-  hours.filter((h,i)=>i%st===0).forEach(h=>svg.append('text').attr('x',m.l+(h-4)*cw+cw/2).attr('y',H-5).attr('text-anchor','middle').text(hh(h)));
+  hours.filter((h,i)=>i%st===0).forEach(h=>svg.append('text').attr('x',m.l+(h-hours[0])*cw+cw/2).attr('y',H-5).attr('text-anchor','middle').text(hh(h)));
   wrap.prepend(svg.node());
   const gl=mk('div',{class:'od-gl'});gl.append(mk('span',{},'น้อย'),mk('span',{},'มาก'));
   el.replaceChildren(wrap,mk('div',{class:'od-grad'}),gl);
@@ -939,6 +975,14 @@ dash.draw('rhm',el=>{
   el.replaceChildren(wrap,grad,gl);
 });
 document.getElementById('tl-det').addEventListener('toggle',()=>dash.draw('timeline'));
+
+/* ---- เมนูนำทาง: เน้นหัวข้อที่กำลังอ่าน ---- */
+(function(){const links=[...document.querySelectorAll('.od-nav a[data-sec]')];if(!links.length)return;
+  const secs=links.map(a=>document.getElementById(a.getAttribute('data-sec')));const bar=document.querySelector('.od-nav-in');let cur=null,tick=false;
+  function spy(){tick=false;let act=null;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<=150)act=i;});
+    if(act===cur)return;cur=act;links.forEach((a,i)=>{if(i===act)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
+    if(act!=null&&bar&&bar.scrollTo){const a=links[act];const l=a.offsetLeft-bar.clientWidth/2+a.offsetWidth/2;bar.scrollTo({left:Math.max(0,l),behavior:'smooth'});}}
+  window.addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(spy);}},{passive:true});spy();})();
 
 </script>
 <script>
